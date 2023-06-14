@@ -13,6 +13,7 @@ from wtforms import SelectField
 from wtforms import StringField
 from wtforms import SubmitField
 from wtforms import StringField
+from wtforms.validators import ValidationError
 from wtforms.validators import DataRequired
 from wtforms.validators import Length
 from wtforms.validators import Length
@@ -139,4 +140,12 @@ class ModifyBookForm(FlaskForm):
     )
     pages = IntegerField("Pages", validators=[DataRequired()])
     stock = IntegerField("Stock", validators=[DataRequired()])
+    initial_stock = IntegerField("Initial Stock", validators=[DataRequired()])
     submit = SubmitField("Save")
+
+    def validate_stock(self, stock):
+        print("zbita")
+        print(stock.data, self.initial_stock.data)
+        if stock.data > self.initial_stock.data:
+            print("dupa")
+            raise ValidationError("Stock cannot be greater than initial stock")

@@ -855,6 +855,7 @@ def modify_book(book_id):
         book.stock=form.stock.data
         book.initial_stock=form.stock.data
         book.images_urls=[faker.image_url() for _ in range(random.randint(1, 3))]
+        book.initial_stock = form.initial_stock.data
 
         book.authors = book.authors[0].split(",")
         book.save()
