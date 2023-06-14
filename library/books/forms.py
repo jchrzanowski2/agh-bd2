@@ -80,7 +80,12 @@ class AddBookForm(FlaskForm):
     )
     pages = IntegerField("Pages", validators=[DataRequired()], default=345)
     stock = IntegerField("Stock", validators=[DataRequired()], default=5)
+    initial_stock = IntegerField("Initial Stock", validators=[DataRequired()], default=5)
     submit = SubmitField("Add")
+
+    def validate_stock(self, stock):
+        if stock.data > self.initial_stock.data:
+            raise ValidationError("Stock cannot be greater than initial stock")
 
 
 class AddReviewForm(FlaskForm):
@@ -144,8 +149,5 @@ class ModifyBookForm(FlaskForm):
     submit = SubmitField("Save")
 
     def validate_stock(self, stock):
-        print("zbita")
-        print(stock.data, self.initial_stock.data)
         if stock.data > self.initial_stock.data:
-            print("dupa")
             raise ValidationError("Stock cannot be greater than initial stock")
